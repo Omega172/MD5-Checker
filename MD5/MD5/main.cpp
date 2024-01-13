@@ -331,7 +331,10 @@ int main(int argc, char** argv)
     InputParser input(argc, argv);
     if (input.cmdOptionExists("-h") || input.cmdOptionExists("--help"))
     {
-        // Print Help
+        printf("-h | --help - Prints this help message\n");
+        printf("--config - Runs the MD5 checker using the provided config\n");
+        printf("--input - Generates a config with the files provided\n");
+        printf("--convert - Converts a .md5 config into a json config\n");
     }
 
     bool bConfig = false;
