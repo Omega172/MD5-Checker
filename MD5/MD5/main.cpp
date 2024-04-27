@@ -13,6 +13,9 @@ constexpr int BUFFSIZE = 16384;
 
 // https://stackoverflow.com/questions/865668/parsing-command-line-arguments-in-c
 class InputParser {
+private:
+    std::vector <std::string> tokens;
+
 public:
     InputParser(int& argc, char** argv) {
         for (int i = 1; i < argc; ++i)
@@ -33,8 +36,10 @@ public:
         return std::find(this->tokens.begin(), this->tokens.end(), option)
             != this->tokens.end();
     }
-private:
-    std::vector <std::string> tokens;
+
+    const size_t getCount() {
+		return this->tokens.size();
+	}
 };
 
 double GetFileSize(std::ifstream& file)
@@ -329,7 +334,7 @@ bool ConvertFile(std::string sInputPath, bool bOutput, std::string sOutputPath)
 int main(int argc, char** argv)
 {
     InputParser input(argc, argv);
-    if (input.cmdOptionExists("-h") || input.cmdOptionExists("--help"))
+    if (input.getCount() == 0 || input.cmdOptionExists("-h") || input.cmdOptionExists("--help"))
     {
         printf("-h | --help - Prints this help message\n");
         printf("--config - Runs the MD5 checker using the provided config\n");
