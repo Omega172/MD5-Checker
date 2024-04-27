@@ -17,7 +17,8 @@ private:
     std::vector <std::string> tokens;
 
 public:
-    InputParser(int& argc, char** argv) {
+    InputParser(int& argc, char** argv)
+    {
         for (int i = 1; i < argc; ++i)
             this->tokens.push_back(std::string(argv[i]));
     }
@@ -28,8 +29,7 @@ public:
         if (itr != this->tokens.end() && ++itr != this->tokens.end()) {
             return *itr;
         }
-        static const std::string empty_string("");
-        return empty_string;
+        return std::string("");
     }
 
     bool cmdOptionExists(const std::string& option) const {
@@ -37,12 +37,10 @@ public:
             != this->tokens.end();
     }
 
-    const size_t getCount() {
-		return this->tokens.size();
-	}
+    const size_t GetCount() { return this->tokens.size(); }
 };
 
-double GetFileSize(std::ifstream& file)
+static double GetFileSize(std::ifstream& file)
 {
     std::streampos fsize = file.tellg();
     file.seekg(0, std::ios::end);
@@ -53,7 +51,7 @@ double GetFileSize(std::ifstream& file)
     return (double)fsize;
 }
 
-std::string HashFileMD5(const std::string& filename) {
+static std::string HashFileMD5(const std::string& filename) {
     std::ifstream file(filename, std::ios::binary);
     if (!file) {
         printf("Failed to open file: %s\n", filename.c_str());
@@ -119,7 +117,7 @@ std::string HashFileMD5(const std::string& filename) {
     return ss.str();
 }
 
-bool CheckConfigHashes(std::string sConfigPath)
+static bool CheckConfigHashes(std::string sConfigPath)
 {
     std::ifstream ifs(sConfigPath);
     if (!ifs) {
@@ -176,7 +174,7 @@ bool CheckConfigHashes(std::string sConfigPath)
     return true;
 }
 
-bool CheckInputHashes(std::string sInputPath, bool bOutput, std::string sOutputPath)
+static bool CheckInputHashes(std::string sInputPath, bool bOutput, std::string sOutputPath)
 {
 
     std::filesystem::path path(sInputPath);
@@ -267,7 +265,7 @@ bool CheckInputHashes(std::string sInputPath, bool bOutput, std::string sOutputP
     return true;
 }
 
-std::vector<std::string> Split(std::string str, std::string delimiter)
+static std::vector<std::string> Split(std::string str, std::string delimiter)
 {
     size_t pos = 0;
     std::vector<std::string> tokens;
@@ -281,7 +279,7 @@ std::vector<std::string> Split(std::string str, std::string delimiter)
     return tokens;
 }
 
-bool ConvertFile(std::string sInputPath, bool bOutput, std::string sOutputPath)
+static bool ConvertFile(std::string sInputPath, bool bOutput, std::string sOutputPath)
 {
     std::ifstream ifs(sInputPath);
     if (!ifs) {
@@ -334,7 +332,7 @@ bool ConvertFile(std::string sInputPath, bool bOutput, std::string sOutputPath)
 int main(int argc, char** argv)
 {
     InputParser input(argc, argv);
-    if (input.getCount() == 0 || input.cmdOptionExists("-h") || input.cmdOptionExists("--help"))
+    if (input.GetCount() == 0 || input.cmdOptionExists("-h") || input.cmdOptionExists("--help"))
     {
         printf("-h | --help - Prints this help message\n");
         printf("--config - Runs the MD5 checker using the provided config\n");
